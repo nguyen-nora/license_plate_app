@@ -3,6 +3,7 @@ from tkinter import ttk
 import tkinter as tk
 from VN_language import *
 from utils import make_entry_gui, Validation_int, Validation_str
+import datetime
 
 class show_DB():
     def __init__(self, mydb):
@@ -30,21 +31,26 @@ class show_DB():
         search_btn.grid(row=0, column=4, padx=5, pady= 5)
         refresh_btn = tk.Button(self.search_gui, text=sys_refresh, cursor="hand2", command= lambda: self.refresh(1))
         refresh_btn.grid(row=1, column=4, padx=5, pady= 5)
-        
-        self.entry_id_search = make_entry_gui(self.search_gui, 0, 0, sys_id_card, "VD: 123456")
-        self.entry_id_search['validatecommand'] = (self.entry_id_search.register(Validation_int),'%P','%d')
-        self.entry_id_search.bind("<FocusIn>", lambda args: self.entry_id_search.delete('0', 'end'))
-        
+        search_time_btn = tk.Button(self.search_gui, text="Tìm kiếm theo thời gian", cursor="hand2", command= lambda: self.search_CSDL_time())
+        search_time_btn.grid(row=2, column=4, padx=5, pady= 5)
+
+        self.entry_id_employ_search = make_entry_gui(self.search_gui, 0, 0, sys_employ_id, "chưa khả dụng")
+        self.entry_id_employ_search.bind("<FocusIn>", lambda args: self.entry_id_employ_search.delete('0', 'end'))
+        self.entry_id_employ_search['validatecommand'] = (self.entry_id_employ_search.register(Validation_int))
+
         self.entry_license_search = make_entry_gui(self.search_gui, 1, 0, sys_license_plate, "VD: 38-F7390.01")
         self.entry_license_search.bind("<FocusIn>", lambda args: self.entry_license_search.delete('0', 'end'))
-        
-        self.entry_result = make_entry_gui(self.search_gui, 0, 2, sys_result, "VD: OK hoặc REFUSE")
-        self.entry_result.bind("<FocusIn>", lambda args: self.entry_result.delete('0', 'end'))
-        self.entry_result['validatecommand'] = (self.entry_result.register(Validation_str),'%P','%d')
-        
-        self.entry_id_employ_search = make_entry_gui(self.search_gui, 1, 2, sys_employ_id, "chưa khả dụng ")
-        self.entry_id_employ_search.bind("<FocusIn>", lambda args: self.entry_id_employ_search.delete('0', 'end'))
-        self.entry_id_employ_search['validatecommand'] = (self.entry_id_employ_search.register(Validation_int),'%P','%d')
+
+        self.entry_time_in_search = make_entry_gui(self.search_gui, 0, 2, "DateIn", "YYYY-MM-DD")
+        self.entry_time_in_search.bind("<FocusIn>", lambda args: self.entry_time_in_search.delete('0', 'end'))
+        self.entry_time_in_search['validatecommand'] = (self.entry_time_in_search.register(self.validate_date), '%P', '%d')
+
+        self.entry_time_out_search = make_entry_gui(self.search_gui, 1, 2, "DateOut", "YYYY-MM-DD")
+        self.entry_time_out_search.bind("<FocusIn>", lambda args: self.entry_time_out_search.delete('0', 'end'))
+        self.entry_time_out_search['validatecommand'] = (self.entry_time_out_search.register(self.validate_date), '%P', '%d')
+
+
+    
         # DB
         self.myDB = mydb
         self.data = self.myDB.select_120_row()
@@ -106,9 +112,18 @@ class show_DB():
         # Xóa toàn bộ các hàng trong treeview
         self.tv_DB.delete(*self.tv_DB.get_children())
         if (data == 1):
-            data = self.myDB.select_120_row()
-        for i in range(119): 
-            self.tv_DB.insert(parent='', index="end", iid=i, text='', values=(data[i][0], data[i][1],data[i][2],data[i][3], data[i][4], data[i][5], data[i][6]))
+            data = self.myDB.select_120_row()   
+        for i in range(len(data)): 
+            self.tv_DB.insert(parent='', index="end", iid=i, text='', values=(data[i][0], data[i][1],data[i][2],data[i][3], data[i][4], data[i][5], data[i][6]))\
+
+    # Điều kiện thời gian
+    def validate_date(self, date_str):
+        try:
+            datetime.datetime.strptime(date_str, '%Y-%m-%d')
+            return True
+        except ValueError:
+            messagebox.showerror("Invalid Date", "Date phải nhập là YYYY-MM-DD format.")
+            return False   
 
     # Tìm kiếm CSDL
     def search_CSDL (self):
@@ -119,6 +134,18 @@ class show_DB():
         employ_id = self.entry_id_employ_search.get()
         data = self.myDB.search_db(id_card, license_plate, result)
         self.refresh(data=data)
+
+    # Tìm kiếm CSDL sử dụng Time_In, Time_Out
+    def search_CSDL_time (self):
+        time_in = self.entry_time_in_search.get()
+        if not self.validate_date(time_in):
+            return
+        time_out = self.entry_time_out_search.get()
+        if not self.validate_date(time_out):
+            return
+        data = self.myDB.search_db_time(time_in, time_out)
+        self.refresh(data=data)
+
 if __name__ == "__main__":
     window = tk.Tk()
     show_DB(window)

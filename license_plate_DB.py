@@ -196,6 +196,19 @@ class my_sql_server_DB():
                            license_plate, result, id_card, result)
             data = cursor.fetchall() # lấy 1 hàng dữ liệu, gọi thêm 1 lần nữa là lấy hàng tiếp theo, fetchall là lấy hết các hàng dữ liệu
         return data
+    #CONVERT(DATE, Time_IN) = '2024-05-21' AND CONVERT(DATE, Time_OUT) = '2024-05-21'
+    def search_db_time(self, time_in, time_out):
+        search_120_row_query = "select top (120) ID_Card, Time_IN, License_Plate_Number, Status, Result, Lane, Time_OUT from License_plate \
+                                WHERE (CONVERT(DATE, Time_IN) >= ? AND CONVERT(DATE, Time_OUT) <= ?)\
+                                ORDER BY \
+                                CASE \
+                                WHEN Time_IN >= Time_OUT THEN Time_IN\
+                                ELSE Time_OUT\
+                                END DESC;"  
+        with self.open_db_connection() as cursor:
+            cursor.execute(search_120_row_query, time_in, time_out)
+            data = cursor.fetchall() # lấy 1 hàng dữ liệu, gọi thêm 1 lần nữa là lấy hàng tiếp theo, fetchall là lấy hết các hàng dữ liệu
+        return data
     
     
 if __name__ == "__main__":    
