@@ -1,21 +1,25 @@
-# license_plate_app
-## First
-You need to download the following video and rename it to: `demo`.  
-Link to download [Here](https://www.youtube.com/watch?v=o4bRh9zzJaU)  
-Then put in `demo folder`  
-If you want to use your camera as input then change the following `main.py`:  
-![image](https://github.com/NguyenDucQuan12/license_plate_app/assets/68120446/b6b62f5a-7236-4b83-97e3-e5b40657c969)  
+![image](https://github.com/user-attachments/assets/6a82f2fe-f89d-4244-b3f8-7b8532af51b9)# Ứng dụng nhận diện biển số xe
+## Đầu tiên
+- Bạn cần tải video xuống và đổi tên thành demo: `demo`.  
+Link tải xuống [Here](https://www.youtube.com/watch?v=o4bRh9zzJaU)  
+- Bạn bỏ file đã tải vào `demo folder`  
+- Nếu bạn muốn sử dụng camera của mình làm đầu vào, hãy thay đổi như sau: `main.py`:  
+![Đổi camera](https://github.com/user-attachments/assets/771f67cd-97c0-4495-99f0-700b7d18c480)
 
-Then when you launch the main file, a window will appear where you can enter the device you want as input *(0-99: your webcacme, or rtsp : IP Camera)*  
-![image](https://github.com/NguyenDucQuan12/license_plate_app/assets/68120446/d4dbd0c2-7f5e-4974-bd1c-7e613c7f11b3)
+- Sau khi bạn khởi chạy tệp chính, một cửa sổ sẽ xuất hiện nơi bạn có thể nhập thiết bị bạn muốn làm đầu vào. *(0-99: your webcacme, or rtsp : IP Camera)*  
 
-## Second
-Change your server, database, username, password database and your driver ODBC in `license_plate_DB.py`
-*If you don't have an account or don't want to log in, it will take about 15 seconds to start the software because it can't connect to the database.*
+## Thứ 2
+- Thay đổi server, database, username, password database và driver ODBC tại `license_plate_DB.py`
+*translate it to vietnamese If you don't have an account or don't want to log in, it will take about 15 seconds to start the software because it can't connect to the database
+Dưới đây là bản dịch tiếng Việt của đoạn văn bạn cung cấp:
 
-### Currently the software is having many errors and performance issues. We look forward to receiving contributions and advice from everyone
-* If you press the quick_view button, a new window will appear for easy viewing by others, however it is causing an error that one of the first two cameras in the main window will freeze the image.
-* There is a RAM leak with frequency increasing by 0.1% in 1 minute, I think this problem is due to using cv2
-* When packaging with auto-py-to-exe, using the card swipe function for the first time will cause the application to reopen again.
+Nếu bạn không có tài khoản hoặc không muốn đăng nhập, phần mềm sẽ mất khoảng 15 giây để khởi động vì không thể kết nối với cơ sở dữ liệu.*
 
-# license_plate_app
+### Hiện tại, phần mềm đang gặp nhiều lỗi và vấn đề về hiệu suất. Chúng tôi mong nhận được sự đóng góp và lời khuyên từ mọi người.
+* Nếu bạn nhấn nút quick_view, một cửa sổ mới sẽ xuất hiện để người khác dễ dàng xem, tuy nhiên nó đang gây ra lỗi khiến một trong hai camera đầu tiên trong cửa sổ chính bị đóng băng hình ảnh.
+* Có một lỗi rò rỉ RAM với tần suất tăng 0,1% trong 1 phút, tôi nghĩ vấn đề này là do sử dụng cv2.
+* Khi đóng gói với auto-py-to-exe, sử dụng chức năng quẹt thẻ lần đầu tiên sẽ khiến ứng dụng mở lại.
+
+## Thứ 3
+- Cam mặc định là video demo (thay số trong main.py để train)
+- Nhập 0 & 1 phần chọn camera để được xem app
