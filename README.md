@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/6a82f2fe-f89d-4244-b3f8-7b8532af51b9)# Ứng dụng nhận diện biển số xe
+# Ứng dụng nhận diện biển số xe
 ## Đầu tiên
 - Bạn cần tải video xuống và đổi tên thành demo: `demo`.  
 Link tải xuống [Here](https://www.youtube.com/watch?v=o4bRh9zzJaU)  
